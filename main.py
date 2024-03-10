@@ -2,77 +2,102 @@ import funkcje as f
 import numpy as np
 import matplotlib.pyplot as plt
 
+x=1
+# a=1
+# b=0
 
-rodzaj_funkcji = int(input("""\nWybierz funkcję:
+# Słownik mapujący wybór użytkownika na odpowiednią funkcję
+rodzaj_funkcji = int(input("""Wybierz funkcję:
 0 - Wielomianowa
 1 - Wykładnicza
 2 - Trygonometryczna
 3 - Złożona
-
 Wybór: """))
+
+
+if rodzaj_funkcji == 0: # Wielomianowa
+    stopien = int(input("Podaj stopień wielomianu: "))
+    while stopien < 1:
+        stopien = int(input("Stopień wielomianu musi być większy od 0: "))
+
+    wspolczynniki = []
+    for index in range(stopien, -1, -1):
+        wspolczynniki.append(float(input(f"Podaj współczynnik przy x^{index}: ")))
+
+    print(f"Wartosc testowa, x gdzies u gory kodu")
+    print(f.wielomian(x,wspolczynniki))
+
+
+elif rodzaj_funkcji == 1: # Wykładnicza
+    a = float(input("Podaj współczynnik a: "))
+    while a == 0:
+        a = float(input("Współczynnik a nie może być równy 0: "))
+
+    b = float(input("Podaj współczynnik b (wyraz wolny): "))
+
+    print(a, b)
+
+    print(f"Wartosc testowa, x gdzies u gory kodu")
+    print(f.wykladnicza(x, a, b))
+
+
+elif rodzaj_funkcji == 2: # Trygonometryczna
+    wybor_funkcji_trygonometrycznej = int(input("""Wybierz funkcję trygonometryczną:
+    0 - sin(x)
+    1 - cos(x)
+    2 - tan(x)
+    Wybór: """))
+
+    trygonometryczne = [np.sin, np.cos, np.tan]
+    wybrana_funkcja = trygonometryczne[wybor_funkcji_trygonometrycznej]
+
+    a = float(input("Podaj współczynnik a: "))
+    b = float(input("Podaj współczynnik b (wyraz wolny): "))
+
+    print(a, b)
+    print(trygonometryczne[wybor_funkcji_trygonometrycznej])
+
+    print(f"Wartosc testowa, x gdzies u gory kodu")
+    print(f.trygonometryczna(x, wybrana_funkcja, a, b))
+
+
+elif rodzaj_funkcji == 3:
+    # Tu możesz dodać kod obsługujący funkcję złożoną
+    pass
+
+else:
+    print("Błąd - wybierz jedną z opcji")
+    raise SystemExit
+
+
+przedzial_poczatek = int(input("Podaj lewy koniec przedziału przedziału: "))
+przedzial_koniec = int(input("Podaj prawy koniec przedziału: "))
+
+
 
 metoda = int(input("""\nWybierz metodę
 0 - Metoda bisekcji iteracyjnie
 1 - Metoda bisekcji z użyciem epsilon
 2 - Metoda stycznych iteracyjnie
 3 - Metoda Stycznych z użyciem epsilon
-
 Wybór: """))
 
-
-if rodzaj_funkcji == 0: # Wielomianowa
-    stopien = int(input("Podaj stopień wielomianu: "))
-
-    while stopien < 1:
-        stopien = int(input("Stopień wielomianu musi być większy od 0: "))
-
-    index_wspolczynnika = stopien;
-    wspolczynniki = []
-
-    while index_wspolczynnika >= 0:
-        wspolczynniki.append(float(input(f"Podaj współczynnik przy x^{index_wspolczynnika}:  ")))
-        index_wspolczynnika -= 1;
-
-    # print(wspolczynniki)
-    # print(f.wielomian(wspolczynniki, 0))
-
-
-elif rodzaj_funkcji == 1: # Wykładnicza
-    a = float(input("Podaj współczynnik a: "))
-
-    while a == 0:
-        a = float(input("Współczynnik a nie może być równy 0: "))
-
-    b = float(input("Podaj współczynnik b (wyraz wolny): "))
-
-    # print(f.wykladnicza(0, a, b))
-
-elif rodzaj_funkcji == 2: # Trygonometryczna
-    metoda = int(input("""\nWybierz funkcje trygonometryczną:
-0 - sin(x)
-1 - cos(x)
-2 - tan(x)
-
-Wybór: """))
-
-    trygonometryczne = [np.sin, np.cos, np.tan]
-    wybrana_funkcja = trygonometryczne[metoda]
-
-    a = float(input("Podaj współczynnik a: "))
-    b = float(input("Podaj współczynnik b (wyraz wolny): "))
-
-    print(f.trygonometryczna(0, wybrana_funkcja, a, b))
-
-
-elif rodzaj_funkcji == 3:
-    #TODO: Dorobić funkcję złożoną
-    pass
-
+if metoda%2==0:
+    iteracje = int(input("\nPodaj ilość iteracji: "))
 else:
-    print("Błąd - wybierz jedną z opcji\n")
+    epsilon = float(input("\nPodaj wartosc epsilon: "))
+
+if metoda==0:
+    print(f.bisekcja_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje))
+elif metoda==1:
+    (f.bisekcja_epsilon(rodzaj_funkcji,przedzial_poczatek,przedzial_koniec,epsilon))
+elif metoda==2:
+    print(f.metoda_Newtona_iteracje(rodzaj_funkcji,przedzial_poczatek,przedzial_koniec,iteracje))
+elif metoda==3:
+    print(f.metoda_Newtona_epsilon(rodzaj_funkcji,przedzial_poczatek,przedzial_koniec,epsilon))
+else:
+    print("Błąd - wybierz jedną z opcji")
     raise SystemExit
-
-
 
 
 

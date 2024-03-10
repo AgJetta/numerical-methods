@@ -1,14 +1,11 @@
-# Funkcja wielomianowa
 import numpy as np
 
 
-def wielomian(x, arr):
-    for i in range(len(arr)):
-        if i == 0:
-            wynik = arr[i]
-        else:
-            wynik += arr[i] * x**i
 
+def wielomian(x, arr):
+    wynik = 0  # Inicjujemy zmienną wynik wartością 0
+    for i in range(len(arr)):
+        wynik += arr[i] * x ** (len(arr) - i - 1)  # Liczymy wartość wielomianu, uwzględniając kolejność współczynników
     return wynik
 
 def pochodna_wielomianu(x, arr):
@@ -23,76 +20,79 @@ def pochodna_wielomianu(x, arr):
 
 
 # Funkcja wykładnicza
-def wykladnicza(x, a, b=0):
+def wykladnicza(x, a, b):
     return a**x + b
 
-def pochodna_wykladniczej(x, a, b=0):
+def pochodna_wykladniczej(x, a):
     return a**x * np.log(a)
 
 
 # Funkcja trygonometryczna
-def trygonometryczna(x, funkcja, a, b=0):
+def trygonometryczna(x, funkcja, a, b):
     return a * funkcja(x) + b
 
+def zlozona(x, a):
+    return 0
+
+funkcje = [wielomian, wykladnicza, trygonometryczna, zlozona]
+
+
+# Metoda bisekcji
+
+def bisekcja_epsilon(id_funkcji, a,b, epsilon: float, x0 = None, iteracje = None):
+    funkcja = funkcje[id_funkcji]
+    counter = 0
+
+    while np.abs(a-b) > epsilon:
+        counter += 1
+        srodek = (a+b)/2
+
+        if funkcja(srodek) == 0:
+            print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {counter} iteracjach')
+            return srodek
+
+        a, b = (a, srodek) if funkcja(a)*funkcja(srodek) < 0 else (srodek, b)
+
+    print(f'Przyblizone miejsce zerowe to {srodek}, znalezione po {counter} iteracjach')
+    return srodek
+
+
+def bisekcja_iteracyjnie(id_funkcji, a, b, iteracje):
+    funkcja = funkcje[id_funkcji]
+    for i in range(iteracje):
+        srodek = (a+b)/2
+
+        if funkcja(srodek) == 0:
+            print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {i} iteracjach')
+            return srodek
+
+        a, b = (a, srodek) if funkcja(a)*funkcja(srodek) < 0 else (srodek, b)
+
+    print(f'po {iteracje} iteracjach miejsce zerowe przyblizone zostało do {srodek}')
+    return srodek
 
 
 
-# # Metoda bisekcji
-# def bisekcja_epsilon(id_funkcji, przedzial: tuple, epsilon: float, x0 = None, iteracje = None):
-#     funkcja = funkcje[id_funkcji]
-#     a, b = przedzial
-#     counter = 0
-
-#     while np.abs(a-b) > epsilon:
-#         counter += 1
-#         srodek = (a+b)/2
-
-#         if funkcja(srodek) == 0:
-#             print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {counter} iteracjach')
-#             return srodek
-
-#         a, b = (a, srodek) if funkcja(a)*funkcja(srodek) < 0 else (srodek, b)
-
-#     print(f'Przyblizone miejsce zerowe to {srodek}, znalezione po {counter} iteracjach')
-#     return srodek
-
-
-# def bisekcja_iteracyjnie(id_funkcji, przedzial: tuple, iteracje: int, epsilon = None, x0 = None):
-#     funkcja = funkcje[id_funkcji]
-#     a, b = przedzial
-
-#     for i in range(iteracje):
-#         srodek = (a+b)/2
-
-#         if funkcja(srodek) == 0:
-#             print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {i} iteracjach')
-#             return srodek
-
-#         a, b = (a, srodek) if funkcja(a)*funkcja(srodek) < 0 else (srodek, b)
-
-#     print(f'po {iteracje} iteracjach miejsce zerowe przyblizone zostało do {srodek}')
-#     return srodek
-
-
+#
 # def metoda_Newtona_epsilon(id_funkcji: int, epsilon: float, x0: float, przedzial = None, iteracje = None):
 #     counter = 0
-
+#
 #     while np.abs(funkcje[id_funkcji](x0)) > epsilon:
 #         x0 -= funkcje[id_funkcji](x0)/pochodne[id_funkcji](x0)
 #         counter += 1
-
+#
 #     print(f'miejsce zerowe przyblizone do {x0}, po {counter} iteracjach')
 #     return x0
-
-
-
+#
+#
+#
 # def metoda_Newtona_iteracje(id_funkcji: int, iteracje: int, x0: float, przedzial = None, epsilon = None):
 #     for i in range(iteracje):
 #         if funkcje[id_funkcji](x0) == 0:
 #             print(f'Znaleziono miejsce zerowe w {x0} po {i} iteracjach')
 #             return x0
 #         x0 -= funkcje[id_funkcji](x0)/pochodne[id_funkcji](x0)
-
+#
 #     print(f'po {iteracje} iteracjach miejsce zerowe przyblizono do {x0}')
 #     return x0
 
@@ -129,6 +129,7 @@ def trygonometryczna(x, funkcja, a, b=0):
 
 
 # # Metoda stycznych (Newtona)
+
 # def newton_method(f, x0, epsilon=0, max_iterations=0):
 #     iteration = 0
 
