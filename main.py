@@ -46,16 +46,22 @@ elif rodzaj_funkcji == 2: # Trygonometryczna
     0 - sin(x)
     1 - cos(x)
     2 - tan(x)
+    3 - ctg(x)
+    4 - arctan(x)
+    5 - arcsin(x)
+    6 - arccos(x)
+    7 - arcctg(x)
     Wybór: """))
 
-    trygonometryczne = [np.sin, np.cos, np.tan]
+    trygonometryczne = [np.sin, np.cos, np.tan, lambda x: 1 / np.tan(x), np.arctan, np.arcsin, np.arccos,
+                        lambda x: np.pi / 2 - np.arctan(x)]
     wybrana_funkcja = trygonometryczne[wybor_funkcji_trygonometrycznej]
 
     a = float(input("Podaj współczynnik a: "))
     b = float(input("Podaj współczynnik b (wyraz wolny): "))
 
     print(a, b)
-    print(trygonometryczne[wybor_funkcji_trygonometrycznej])
+    # print(trygonometryczne[wybor_funkcji_trygonometrycznej])
 
     print(f"Wartosc testowa, x gdzies u gory kodu")
     print(f.trygonometryczna(x, wybrana_funkcja, a, b))
