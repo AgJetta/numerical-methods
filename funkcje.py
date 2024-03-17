@@ -1,7 +1,5 @@
 import numpy as np
 
-
-
 def wielomian(x, arr):
     wynik = 0  # Inicjujemy zmienną wynik wartością 0
     for i in range(len(arr)):
@@ -31,10 +29,28 @@ def pochodna_wykladniczej(x, a):
 def trygonometryczna(x, funkcja, a, b):
     return a * funkcja(x) + b
 
-def zlozona(x, a):
-    return 0
+# def zlozona(x, a):
+#     return 0
 
-funkcje = [wielomian, wykladnicza, trygonometryczna, zlozona]
+funkcje = [wielomian, wykladnicza, trygonometryczna]
+
+
+def wartosc_funkcji(rodzaj_funkcji, x, a=None, b=None, wspolczynniki=None):
+    if rodzaj_funkcji == 0:  # Wielomianowa
+        if wspolczynniki is None:
+            raise ValueError("Brak współczynników dla funkcji wielomianowej.")
+        return wielomian(x, wspolczynniki)
+    elif rodzaj_funkcji == 1:  # Wykładnicza
+        if a is None or b is None:
+            raise ValueError("Brak współczynników dla funkcji wykładniczej.")
+        return wykladnicza(x, a, b)
+    elif rodzaj_funkcji == 2:  # Trygonometryczna
+        if a is None or b is None:
+            raise ValueError("Brak współczynników dla funkcji trygonometrycznej.")
+        return trygonometryczna(x, a, b)
+    else:
+        raise ValueError("Nieprawidłowy rodzaj funkcji.")
+
 
 
 # Metoda bisekcji
