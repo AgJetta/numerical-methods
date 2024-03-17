@@ -38,8 +38,8 @@ while zlozenie > 0:
 
         elif rodzaj_funkcji == 1: # Wykładnicza
             a = float(input("Podaj współczynnik a: "))
-            while a == 0:
-                a = float(input("Współczynnik a nie może być równy 0: "))
+            while a <= 0 :
+                a = float(input("Współczynnik a musi byc wiekszy od 0 by funkcja mogła byc ciagła, podaj a: "))
 
             b = float(input("Podaj współczynnik b (wyraz wolny): "))
 
