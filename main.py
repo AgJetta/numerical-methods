@@ -12,92 +12,99 @@ zlozenie = 1
 zwyniki = []
 iloscf = 0
 
+rodzaj_funkcji = -1
+
+
+
 while zlozenie > 0:
 
+    while rodzaj_funkcji < 0 or rodzaj_funkcji >= 3:
         rodzaj_funkcji = float(input("""Wybierz funkcję:
-        
+
         0 - Wielomianowa
         1 - Wykładnicza
         2 - Trygonometryczna
-        
+
         Wybór: """))
 
 
-        if rodzaj_funkcji == 0: # Wielomianowa
-            stopien = int(input("Podaj stopień wielomianu: "))
-            while stopien < 1:
-                stopien = float(input("Stopień wielomianu musi być większy od 0: "))
+    if rodzaj_funkcji == 0: # Wielomianowa
+        stopien = int(input("Podaj stopień wielomianu: "))
+        while stopien < 1:
+            stopien = int(input("Stopień wielomianu musi być większy od 0: "))
 
-            wspolczynniki = []
-            for index in range(stopien, -1, -1):
-                wspolczynniki.append(float(input(f"Podaj współczynnik przy x^{index}: ")))
+        wspolczynniki = []
+        for index in range(stopien, -1, -1):
+            wspolczynniki.append(float(input(f"Podaj współczynnik przy x^{index}: ")))
 
-            print(f"Wartosc testowa, x gdzies u gory kodu")
-            print(f.wielomian(x,wspolczynniki))
-
-
-        elif rodzaj_funkcji == 1: # Wykładnicza
-            a = float(input("Podaj współczynnik a: "))
-            while a <= 0 :
-                a = float(input("Współczynnik a musi byc wiekszy od 0 by funkcja mogła byc ciagła, podaj a: "))
-
-            b = float(input("Podaj współczynnik b (wyraz wolny): "))
-
-            print(f"Wspolczynniki :", a, b)
-
-            print(f"Wartosc testowa, x gdzies u gory kodu")
-            print(f.wykladnicza(x, a, b))
-
-        elif rodzaj_funkcji == 2:  # Trygonometryczna
-
-            wybor_funkcji_trygonometrycznej = int(input("""Wybierz funkcję trygonometryczną:
-
-            0 - sin(x)
-            1 - cos(x)
-            2 - tan(x)
-            3 - ctg(x)
-            4 - arctan(x)
-            5 - arcsin(x)
-            6 - arccos(x)
-            7 - arcctg(x)
-    
-            Wybór: """))
-
-            trygonometryczne = [np.sin, np.cos, np.tan, lambda x: 1 / np.tan(x), np.arctan, np.arcsin, np.arccos, lambda x: np.pi / 2 - np.arctan(x)]
-            wybrana_trygonometryczna = trygonometryczne[wybor_funkcji_trygonometrycznej]
-
-            a = float(input("Podaj współczynnik a: "))
-            b = float(input("Podaj współczynnik b (wyraz wolny): "))
-            print(a, b)
-            # print(trygonometryczne[wybor_funkcji_trygonometrycznej])
-            print(f"Wartosc testowa, x gdzies u gory kodu")
-
-            print(f.trygonometryczna(x, wybrana_trygonometryczna, a, b))
+        print(f"Wartosc testowa, x gdzies u gory kodu")
+        print(f.wielomian(x,wspolczynniki))
+        print(f"forma pochodnej: ")
+        print(np.polyder(np.poly1d(wspolczynniki)))
+        print(f"wartosc pochodnej: ", f.pochodna_wielomianu(x,wspolczynniki))
 
 
-        else:
-            print("Błąd - wybierz jedną z opcji")
-            raise SystemExit
+    elif rodzaj_funkcji == 1: # Wykładnicza
+        a = float(input("Podaj współczynnik a: "))
+        while a <= 0 :
+            a = float(input("Współczynnik a musi byc wiekszy od 0 by funkcja mogła byc ciagła, podaj a: "))
 
-        print()
-        zlozenie = float(input("""Czy chcesz dodac zlozenie funkcji?: 
-            0 - Nie
-            1 - Dodawanie
-            2 - Odejmowanie
-            2 - Odejmowanie
-            3 - Mnozenie
-            4 - Dzielenie
-            5 - Funkcja wewnetrzna
-            6 - Funkcja zewnetrzna
-            
-            Wybór: """))
+        b = float(input("Podaj współczynnik b (wyraz wolny): "))
 
-        if zlozenie == 0:
-            break
-        else:
-            iloscf += 1
-            print(a)
-            print(b)
+        print(f"Wspolczynniki :", a, b)
+
+        print(f"Wartosc testowa, x gdzies u gory kodu")
+        print(f.wykladnicza(x, a, b))
+        print("wartosc pochodnej wykladniczej: ")
+        print(f.pochodna_wykladniczej(x, a))
+
+    elif rodzaj_funkcji == 2:  # Trygonometryczna
+
+        wybor_funkcji_trygonometrycznej = int(input("""Wybierz funkcję trygonometryczną:
+
+        0 - sin(x)
+        1 - cos(x)
+        2 - tan(x)
+        3 - ctg(x)
+        4 - arctan(x)
+        5 - arcsin(x)
+        6 - arccos(x)
+        7 - arcctg(x)
+
+        Wybór: """))
+
+        trygonometryczne = [np.sin, np.cos, np.tan, lambda x: 1 / np.tan(x), np.arctan, np.arcsin, np.arccos, lambda x: np.pi / 2 - np.arctan(x)]
+        wybrana_trygonometryczna = trygonometryczne[wybor_funkcji_trygonometrycznej]
+
+        a = float(input("Podaj współczynnik a: "))
+        b = float(input("Podaj współczynnik b (wyraz wolny): "))
+        print(a, b)
+        # print(trygonometryczne[wybor_funkcji_trygonometrycznej])
+        print(f"Wartosc testowa, x gdzies u gory kodu")
+        print(f.trygonometryczna(x, wybrana_trygonometryczna, a, b))
+        print("wartosc pochodnej trygonometrycznej: ")
+        print(f.pochodna_trygonometrycznej(x, wybrana_trygonometryczna, a))
+
+
+    print()
+    zlozenie = float(input("""Czy chcesz dodac zlozenie funkcji?: 
+        0 - Nie
+        1 - Dodawanie
+        2 - Odejmowanie
+        2 - Odejmowanie
+        3 - Mnozenie
+        4 - Dzielenie
+        5 - Funkcja wewnetrzna
+        6 - Funkcja zewnetrzna
+        
+        Wybór: """))
+
+    if zlozenie == 0:
+        break
+    else:
+        iloscf += 1
+        print(a)
+        print(b)
 
 print()
 print("wartosc testowa funkcji poza petla, x u gory kodu: ", f.wartosc_funkcji(rodzaj_funkcji, x, a, b, wspolczynniki, wybrana_trygonometryczna))

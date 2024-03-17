@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def wielomian(x, arr):
     wynik = 0  # Inicjujemy zmienną wynik wartością 0
     for i in range(len(arr)):
@@ -7,14 +8,10 @@ def wielomian(x, arr):
     return wynik
 
 def pochodna_wielomianu(x, arr):
-    wynik = 0
-    for i in range(len(arr)):
-        if i == 0:
-            continue
-        else:
-            wynik += arr[i] * i * x**(i-1)
+    poly = np.poly1d(arr)
+    derivative_poly = np.polyder(poly)
+    return derivative_poly(x)
 
-    return wynik
 
 # Funkcja wykładnicza
 def wykladnicza(x, a, b):
@@ -28,8 +25,40 @@ def pochodna_wykladniczej(x, a):
 def trygonometryczna(x, funkcja, a, b):
     return a * funkcja(x) + b
 
+
+# Pochodna funkcji trygonometrycznej
+def pochodna_trygonometrycznej(x, funkcja, a):
+    if funkcja == np.sin:
+        return a * np.cos(x)
+    elif funkcja == np.cos:
+        return -a * np.sin(x)
+    elif funkcja == np.tan:
+        return a / np.cos(x)**2
+    elif funkcja == (lambda x: 1 / np.tan(x)):
+        return -a / np.sin(x)**2
+    elif funkcja == np.arctan:
+        return a / (1 + x**2)
+    elif funkcja == np.arcsin:
+        return a / np.sqrt(1 - x**2)
+    elif funkcja == np.arccos:
+        return -a / np.sqrt(1 - x**2)
+    elif funkcja == (lambda x: np.pi / 2 - np.arctan(x)):
+        return -a / (1 + x**2)
+
 # def zlozona(x, a):
 #     return 0
+
+
+# Funkcja pochodnej
+def pochodna_funkcji(x, rodzaj_funkcji, funkcja=None, a=None, wspolczynniki=None):
+    if rodzaj_funkcji == 0:  # Wielomianowa
+        return pochodna_wielomianu(x, wspolczynniki)
+    elif rodzaj_funkcji == 1:  # Wykładnicza
+        return pochodna_wykladniczej(x, a)
+    elif rodzaj_funkcji == 2:  # Trygonometryczna
+        return pochodna_trygonometrycznej(x, funkcja, a)
+    else:
+        raise ValueError("Nieprawidłowy rodzaj funkcji.")
 
 
 def wartosc_funkcji(rodzaj_funkcji, x, a=None, b=None, wspolczynniki=None, wybrana_trygonometryczna=None):
@@ -111,11 +140,39 @@ def bisekcja_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=No
     return srodek
 
 
-#
-# def metoda_Newtona_epsilon(id_funkcji: int, epsilon: float, x0: float, przedzial = None, iteracje = None):
+def metoda_stycznych(rodzaj_funkcji, x0, epsilon, max_iteracji, parametr1=None, parametr2=None, wspolczynniki=None, wybrana_trygonometryczna=None):
+    if epsilon <= 0:
+        raise ValueError("Epsilon musi być dodatnią liczbą.")
+
+    # Warunki początkowe
+    iteracja = 0
+    x = x0
+
+    # Pętla iteracyjna
+    while True:
+        # Oblicz wartość funkcji i jej pochodnej w punkcie x
+        f_x = wartosc_funkcji(rodzaj_funkcji, x, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna)
+        f_prim_x = pochodna_funkcji(rodzaj_funkcji, x, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna)
+
+        # Oblicz następny przybliżony punkt zerowy
+        x_nastepny = x - f_x / f_prim_x
+
+        # Sprawdź warunek stopu
+        if abs(x_nastepny - x) < epsilon or iteracja >= max_iteracji:
+            break
+
+        # Przygotuj się do następnej iteracji
+        x = x_nastepny
+        iteracja += 1
+
+    return x_nastepny
+
+
+
+# def metoda_Newtona_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=None, wspolczynniki=None, wybrana_trygonometryczna=None):
 #     counter = 0
 #
-#     while np.abs(funkcje[id_funkcji](x0)) > epsilon:
+#     while np.abs(wartosc_funkcji(rodzaj_funkcji, a, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna)) > epsilon:
 #         x0 -= funkcje[id_funkcji](x0)/pochodne[id_funkcji](x0)
 #         counter += 1
 #
@@ -124,6 +181,17 @@ def bisekcja_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=No
 #
 #
 #
+# def metoda_Newtona_epsilon2(id_funkcji: int, epsilon: float, x0: float, przedzial = None, iteracje = None):
+#     counter = 0
+#     while np.abs(funkcje[id_funkcji](x0)) > epsilon:
+#         x0 -= funkcje[id_funkcji](x0)/pochodne[id_funkcji](x0)
+#         counter += 1
+#
+#     print(f'miejsce zerowe przyblizone do {x0}, po {counter} iteracjach')
+#     return x0
+
+
+
 # def metoda_Newtona_iteracje(id_funkcji: int, iteracje: int, x0: float, przedzial = None, epsilon = None):
 #     for i in range(iteracje):
 #         if funkcje[id_funkcji](x0) == 0:
@@ -134,36 +202,6 @@ def bisekcja_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=No
 #     print(f'po {iteracje} iteracjach miejsce zerowe przyblizono do {x0}')
 #     return x0
 
-
-# def bisection_method(f, a, b, epsilon):
-#     if f(a) * f(b) >= 0:
-#         print("Funkcja nie spełnia założenia o przeciwnych znakach na krańcach przedziału.")
-#         return None
-#     iteration = 0
-
-#     if(epsilon != 0):
-#         while (b - a) / 2 > epsilon:
-#             midpoint = (a + b) / 2
-#             if f(midpoint) == 0:
-#                 return midpoint
-#             elif f(midpoint) * f(a) < 0:
-#                 b = midpoint
-#             else:
-#                 a = midpoint
-#             iteration += 1
-#             return (a + b) / 2
-
-#     elif(max_iterations != 0):
-#         while iteration < max_iterations:
-#             midpoint = (a + b) / 2
-#             if f(midpoint) == 0:
-#                 return midpoint
-#             elif f(midpoint) * f(a) < 0:
-#                 b = midpoint
-#             else:
-#                 a = midpoint
-#             iteration += 1
-#             return (a + b) / 2
 
 
 # # Metoda stycznych (Newtona)
