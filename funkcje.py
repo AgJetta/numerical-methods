@@ -50,7 +50,7 @@ def pochodna_trygonometrycznej(x, funkcja, a):
 
 
 # Funkcja pochodnej
-def pochodna_funkcji(x, rodzaj_funkcji, funkcja=None, a=None, wspolczynniki=None):
+def pochodna_funkcji(rodzaj_funkcji, x,  funkcja=None, a=None, wspolczynniki=None):
     if rodzaj_funkcji == 0:  # Wielomianowa
         return pochodna_wielomianu(x, wspolczynniki)
     elif rodzaj_funkcji == 1:  # Wykładnicza
@@ -140,7 +140,8 @@ def bisekcja_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=No
     return srodek
 
 
-def metoda_stycznych(rodzaj_funkcji, x0, epsilon, max_iteracji, parametr1=None, parametr2=None, wspolczynniki=None, wybrana_trygonometryczna=None):
+def stycznie_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=None, wspolczynniki=None, wybrana_trygonometryczna=None):
+    x0=a
     if epsilon <= 0:
         raise ValueError("Epsilon musi być dodatnią liczbą.")
 
@@ -152,13 +153,13 @@ def metoda_stycznych(rodzaj_funkcji, x0, epsilon, max_iteracji, parametr1=None, 
     while True:
         # Oblicz wartość funkcji i jej pochodnej w punkcie x
         f_x = wartosc_funkcji(rodzaj_funkcji, x, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna)
-        f_prim_x = pochodna_funkcji(rodzaj_funkcji, x, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna)
+        f_prim_x = pochodna_funkcji(rodzaj_funkcji, x, parametr1, wspolczynniki, wybrana_trygonometryczna)
 
         # Oblicz następny przybliżony punkt zerowy
         x_nastepny = x - f_x / f_prim_x
 
         # Sprawdź warunek stopu
-        if abs(x_nastepny - x) < epsilon or iteracja >= max_iteracji:
+        if abs(x_nastepny - x) < epsilon:
             break
 
         # Przygotuj się do następnej iteracji
