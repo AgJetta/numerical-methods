@@ -77,26 +77,38 @@ def bisekcja_iteracyjnie(rodzaj_funkcji, a, b, iteracje, parametr1=None, paramet
     print(f'po {iteracje} iteracjach miejsce zerowe przyblizone zostało do {srodek}')
     return srodek
 
-# wartosc_funkcji(rodzaj_funkcji, przedzial_poczatek, a=a, b=b, wspolczynniki=wspolczynniki)
 
 # Metoda bisekcji
 
-# def bisekcja_epsilon(id_funkcji, a,b, epsilon: float, x0 = None, iteracje = None):
-#     funkcja = funkcje[id_funkcji]
-#     counter = 0
-#
-#     while np.abs(a-b) > epsilon:
-#         counter += 1
-#         srodek = (a+b)/2
-#
-#         if funkcja(srodek) == 0:
-#             print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {counter} iteracjach')
-#             return srodek
-#
-#         a, b = (a, srodek) if funkcja(a)*funkcja(srodek) < 0 else (srodek, b)
-#
-#     print(f'Przyblizone miejsce zerowe to {srodek}, znalezione po {counter} iteracjach')
-#     return srodek
+def bisekcja_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=None, wspolczynniki=None, wybrana_trygonometryczna=None):
+    if epsilon <= 0:
+        raise ValueError("Epsilon powinien być większy od zera.")
+
+    srodek = (a + b) / 2
+    print("Wartość testowa funkcji poza pętlą, x u góry kodu: ",
+          wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna))
+
+    iteracje = 0
+
+    while abs(b - a) > epsilon:
+        srodek = (a + b) / 2
+        wartosc_srodka = wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki,
+                                          wybrana_trygonometryczna)
+        wartosc_a = wartosc_funkcji(rodzaj_funkcji, a, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna)
+
+        if wartosc_srodka == 0:
+            print(f'Miejscem zerowym tej funkcji jest {srodek}, znalezione po {iteracje} iteracjach')
+            return srodek
+
+        if np.real(wartosc_a * wartosc_srodka) < 0:
+            b = srodek
+        else:
+            a = srodek
+
+        iteracje += 1
+
+    print(f'Po {iteracje} iteracjach miejsce zerowe zostało przybliżone do {srodek}')
+    return srodek
 
 
 #

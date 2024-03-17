@@ -136,7 +136,7 @@ else:
 if metoda==0:
     print(f.bisekcja_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje, a, b, wspolczynniki, wybrana_trygonometryczna))
 elif metoda==1:
-    print(f.bisekcja_epsilon(rodzaj_funkcji,przedzial_poczatek,przedzial_koniec,epsilon))
+    print(f.bisekcja_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, wybrana_trygonometryczna))
 elif metoda==2:
     print(f.metoda_Newtona_iteracje(rodzaj_funkcji,przedzial_poczatek,przedzial_koniec,iteracje))
 elif metoda==3:
