@@ -16,7 +16,6 @@ def pochodna_wielomianu(x, arr):
 
     return wynik
 
-
 # Funkcja wykładnicza
 def wykladnicza(x, a, b):
     return a**x + b
@@ -32,10 +31,8 @@ def trygonometryczna(x, funkcja, a, b):
 # def zlozona(x, a):
 #     return 0
 
-funkcje = [wielomian, wykladnicza, trygonometryczna]
 
-
-def wartosc_funkcji(rodzaj_funkcji, x, a=None, b=None, wspolczynniki=None):
+def wartosc_funkcji(rodzaj_funkcji, x, a=None, b=None, wspolczynniki=None, wybrana_trygonometryczna=None):
     if rodzaj_funkcji == 0:  # Wielomianowa
         if wspolczynniki is None:
             raise ValueError("Brak współczynników dla funkcji wielomianowej.")
@@ -47,46 +44,59 @@ def wartosc_funkcji(rodzaj_funkcji, x, a=None, b=None, wspolczynniki=None):
     elif rodzaj_funkcji == 2:  # Trygonometryczna
         if a is None or b is None:
             raise ValueError("Brak współczynników dla funkcji trygonometrycznej.")
-        return trygonometryczna(x, a, b)
+        elif wybrana_trygonometryczna is None:
+            raise ValueError("Brak wybrania funkcji trygonometrycznej.")
+        return trygonometryczna(x, wybrana_trygonometryczna, a, b)
     else:
         raise ValueError("Nieprawidłowy rodzaj funkcji.")
 
 
 
-# Metoda bisekcji
 
-def bisekcja_epsilon(id_funkcji, a,b, epsilon: float, x0 = None, iteracje = None):
-    funkcja = funkcje[id_funkcji]
-    counter = 0
+def bisekcja_iteracyjnie(rodzaj_funkcji, a, b, iteracje, parametr1=None, parametr2=None, wspolczynniki=None, wybrana_trygonometryczna = None):
+    srodek = (a + b) / 2
+    print("wartosc testowa funkcji poza petla, x u gory kodu: ",
+          wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna))
 
-    while np.abs(a-b) > epsilon:
-        counter += 1
-        srodek = (a+b)/2
-
-        if funkcja(srodek) == 0:
-            print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {counter} iteracjach')
-            return srodek
-
-        a, b = (a, srodek) if funkcja(a)*funkcja(srodek) < 0 else (srodek, b)
-
-    print(f'Przyblizone miejsce zerowe to {srodek}, znalezione po {counter} iteracjach')
-    return srodek
-
-
-def bisekcja_iteracyjnie(id_funkcji, a, b, iteracje):
-    funkcja = funkcje[id_funkcji]
     for i in range(iteracje):
-        srodek = (a+b)/2
 
-        if funkcja(srodek) == 0:
+        srodek = (a + b) / 2
+        wartosc_srodka = wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki,
+                                         wybrana_trygonometryczna)
+        wartosc_a = wartosc_funkcji(rodzaj_funkcji, a, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna)
+
+        if wartosc_srodka == 0:
             print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {i} iteracjach')
             return srodek
 
-        a, b = (a, srodek) if funkcja(a)*funkcja(srodek) < 0 else (srodek, b)
+        if np.real(wartosc_a * wartosc_srodka) < 0:
+            b = srodek
+        else:
+            a = srodek
 
     print(f'po {iteracje} iteracjach miejsce zerowe przyblizone zostało do {srodek}')
     return srodek
 
+# wartosc_funkcji(rodzaj_funkcji, przedzial_poczatek, a=a, b=b, wspolczynniki=wspolczynniki)
+
+# Metoda bisekcji
+
+# def bisekcja_epsilon(id_funkcji, a,b, epsilon: float, x0 = None, iteracje = None):
+#     funkcja = funkcje[id_funkcji]
+#     counter = 0
+#
+#     while np.abs(a-b) > epsilon:
+#         counter += 1
+#         srodek = (a+b)/2
+#
+#         if funkcja(srodek) == 0:
+#             print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {counter} iteracjach')
+#             return srodek
+#
+#         a, b = (a, srodek) if funkcja(a)*funkcja(srodek) < 0 else (srodek, b)
+#
+#     print(f'Przyblizone miejsce zerowe to {srodek}, znalezione po {counter} iteracjach')
+#     return srodek
 
 
 #
