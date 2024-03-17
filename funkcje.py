@@ -6,11 +6,13 @@ def wielomian(x, arr):
     for i in range(len(arr)):
         wynik += arr[i] * x ** (len(arr) - i - 1)  # Liczymy wartość wielomianu, uwzględniając kolejność współczynników
     return wynik
-def wielomian_horner(x, coeffs, n):
-    result = coeffs[n]
-    for i in range(n - 1, -1, -1):
-        result = result * x + coeffs[i]
-    return result
+def wielomian_horner(x, wsp, st):
+    wynik = wsp[0]
+    for i in range(1, st + 1):
+        wynik = wynik * x + wsp[i]
+
+    return wynik
+
 
 
 def pochodna_wielomianu(x, arr):
@@ -67,11 +69,11 @@ def pochodna_funkcji(rodzaj_funkcji, x,  funkcja=None, a=None, wspolczynniki=Non
         raise ValueError("Nieprawidłowy rodzaj funkcji.")
 
 
-def wartosc_funkcji(rodzaj_funkcji, x, a=None, b=None, wspolczynniki=None, wybrana_trygonometryczna=None):
+def wartosc_funkcji(rodzaj_funkcji, x, a=None, b=None, wspolczynniki=None, stopien = None, wybrana_trygonometryczna=None):
     if rodzaj_funkcji == 0:  # Wielomianowa
         if wspolczynniki is None:
             raise ValueError("Brak współczynników dla funkcji wielomianowej.")
-        return wielomian(x, wspolczynniki)
+        return wielomian_horner(x,wspolczynniki, stopien)
     elif rodzaj_funkcji == 1:  # Wykładnicza
         if a is None or b is None:
             raise ValueError("Brak współczynników dla funkcji wykładniczej.")
@@ -88,17 +90,17 @@ def wartosc_funkcji(rodzaj_funkcji, x, a=None, b=None, wspolczynniki=None, wybra
 
 
 
-def bisekcja_iteracyjnie(rodzaj_funkcji, a, b, iteracje, parametr1=None, parametr2=None, wspolczynniki=None, wybrana_trygonometryczna = None):
+def bisekcja_iteracyjnie(rodzaj_funkcji, a, b, iteracje, parametr1=None, parametr2=None, wspolczynniki=None, stopien = None, wybrana_trygonometryczna = None):
     srodek = (a + b) / 2
     print("wartosc testowa funkcji poza petla, x u gory kodu: ",
-          wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna))
+          wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, stopien, wybrana_trygonometryczna))
 
     for i in range(iteracje):
 
         srodek = (a + b) / 2
-        wartosc_srodka = wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki,
+        wartosc_srodka = wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, stopien,
                                          wybrana_trygonometryczna)
-        wartosc_a = wartosc_funkcji(rodzaj_funkcji, a, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna)
+        wartosc_a = wartosc_funkcji(rodzaj_funkcji, a, parametr1, parametr2, wspolczynniki, stopien, wybrana_trygonometryczna)
 
         if wartosc_srodka == 0:
             print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {i} iteracjach')
@@ -115,21 +117,21 @@ def bisekcja_iteracyjnie(rodzaj_funkcji, a, b, iteracje, parametr1=None, paramet
 
 # Metoda bisekcji
 
-def bisekcja_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=None, wspolczynniki=None, wybrana_trygonometryczna=None):
+def bisekcja_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=None, wspolczynniki=None, stopien = None, wybrana_trygonometryczna=None):
     if epsilon <= 0:
         raise ValueError("Epsilon powinien być większy od zera.")
 
     srodek = (a + b) / 2
     print("Wartość testowa funkcji poza pętlą, x u góry kodu: ",
-          wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna))
+          wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, stopien, wybrana_trygonometryczna))
 
     iteracje = 0
 
     while abs(b - a) > epsilon:
         srodek = (a + b) / 2
-        wartosc_srodka = wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki,
+        wartosc_srodka = wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, stopien,
                                           wybrana_trygonometryczna)
-        wartosc_a = wartosc_funkcji(rodzaj_funkcji, a, parametr1, parametr2, wspolczynniki, wybrana_trygonometryczna)
+        wartosc_a = wartosc_funkcji(rodzaj_funkcji, a, parametr1, parametr2, wspolczynniki, stopien, wybrana_trygonometryczna)
 
         if wartosc_srodka == 0:
             print(f'Miejscem zerowym tej funkcji jest {srodek}, znalezione po {iteracje} iteracjach')

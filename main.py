@@ -2,15 +2,13 @@ import funkcje as f
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-
-
 x = 1
 a = 0
 b = 0
 wspolczynniki = []
 wybrana_trygonometryczna = np.sin
 
+stopien = 1
 zlozenie = 1
 zwyniki = []
 iloscf = 0
@@ -18,6 +16,7 @@ iloscf = 0
 rodzaj_funkcji = -1
 
 while zlozenie > 0:
+    rodzaj_funkcji = -1  # Zresetowanie rodzaj_funkcji przed kolejną iteracją pętli
 
     while rodzaj_funkcji < 0 or rodzaj_funkcji >= 3:
         rodzaj_funkcji = float(input("""Wybierz funkcję:
@@ -107,7 +106,7 @@ while zlozenie > 0:
 
 print()
 print("wartosc testowa funkcji poza petla, x u gory kodu: ",
-      f.wartosc_funkcji(rodzaj_funkcji, x, a, b, wspolczynniki, wybrana_trygonometryczna))
+      f.wartosc_funkcji(rodzaj_funkcji, x, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
 
 przedzial_wartosc = 1
 
@@ -118,9 +117,9 @@ while przedzial_wartosc > 0:
     przedzial_koniec = float(input("Podaj prawy koniec przedziału: "))
 
     # walidacja, czy wartosci po przeciwnych stronach przedziału mają przeciwną wartosc
-    print(f.wartosc_funkcji(rodzaj_funkcji, przedzial_poczatek, a, b, wspolczynniki, wybrana_trygonometryczna))
-    print(f.wartosc_funkcji(rodzaj_funkcji, przedzial_koniec, a, b, wspolczynniki, wybrana_trygonometryczna))
-    przedzial_wartosc = f.wartosc_funkcji(rodzaj_funkcji, przedzial_poczatek, a, b, wspolczynniki, wybrana_trygonometryczna) * f.wartosc_funkcji(rodzaj_funkcji, przedzial_koniec, a, b,wspolczynniki,wybrana_trygonometryczna)
+    print(f.wartosc_funkcji(rodzaj_funkcji, przedzial_poczatek, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
+    print(f.wartosc_funkcji(rodzaj_funkcji, przedzial_koniec, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
+    przedzial_wartosc = f.wartosc_funkcji(rodzaj_funkcji, przedzial_poczatek, a, b, wspolczynniki, stopien, wybrana_trygonometryczna) * f.wartosc_funkcji(rodzaj_funkcji, przedzial_koniec, a, b, wspolczynniki, stopien ,wybrana_trygonometryczna)
 
     print(f"walidacja, przedzial wartosc: ", przedzial_wartosc)
 
@@ -139,15 +138,13 @@ else:
     epsilon = float(input("\nPodaj wartosc epsilon: "))
 
 if metoda == 0:
-    print(f.bisekcja_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje, a, b, wspolczynniki, wybrana_trygonometryczna))
+    print(f.bisekcja_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
 elif metoda == 1:
-    print(f.bisekcja_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, wybrana_trygonometryczna))
+    print(f.bisekcja_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
 elif metoda == 2:
     print(f.metoda_Newtona_iteracje(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje))
 elif metoda == 3:
-    print(f.stycznie_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, wybrana_trygonometryczna))
+    print(f.stycznie_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
 else:
     print("Błąd - wybierz jedną z opcji")
     raise SystemExit
-
-
