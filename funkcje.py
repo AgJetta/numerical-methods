@@ -6,6 +6,12 @@ def wielomian(x, arr):
     for i in range(len(arr)):
         wynik += arr[i] * x ** (len(arr) - i - 1)  # Liczymy wartość wielomianu, uwzględniając kolejność współczynników
     return wynik
+def wielomian_horner(x, coeffs, n):
+    result = coeffs[n]
+    for i in range(n - 1, -1, -1):
+        result = result * x + coeffs[i]
+    return result
+
 
 def pochodna_wielomianu(x, arr):
     poly = np.poly1d(arr)

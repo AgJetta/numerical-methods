@@ -2,10 +2,13 @@ import funkcje as f
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+
+
 x = 1
 a = 0
 b = 0
-wspolczynniki = 0
+wspolczynniki = []
 wybrana_trygonometryczna = np.sin
 
 zlozenie = 1
@@ -36,6 +39,8 @@ while zlozenie > 0:
 
         print(f"Wartosc testowa, x gdzies u gory kodu")
         print(f.wielomian(x, wspolczynniki))
+        print(f"Horner wielomian: ")
+        print(f.wielomian_horner(x,wspolczynniki,stopien))
         print(f"forma pochodnej: ")
         print(np.polyder(np.poly1d(wspolczynniki)))
         print(f"wartosc pochodnej: ", f.pochodna_wielomianu(x, wspolczynniki))
