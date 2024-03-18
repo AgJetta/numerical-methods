@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 x = 1
 a = 3
 b = -4
-iteracje = 100
+iteracje = 8
 epsilon = 0.1
-wspolczynniki = [-3, 4, 3, 2]
+wspolczynniki = [-2, 4, 4, 5]
 wybrana_trygonometryczna = np.sin
 rodzaj_funkcji = 1
 przedzial_poczatek = 0
@@ -21,20 +21,32 @@ iloscf = 0
 rodzaj_funkcji = 1
 
 menu = int(input("""Czy chcesz odtworzyć gotowe funkcje, czy samemu podać wartości?
-                 0 - Gotowe funkcje ze sprawozdania
+                 0 - Porównanie wybranych funkcji ze sprawozdania
                  1 - Nowe wartości
                  Cokolwiek innego - Crash i wyjście z programu
                  Wybór: """))
 
 print()
 if menu == 0:
+    print()
 
-    root = f.bisekcja_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje, a, b,
+    print(f"Porównanie metod iteracyjnie dla funkcji 3^x - 4 dla 100 max iteracji")
+
+    print(f"Przedzial: 0-5")
+
+    print(f.bisekcja_iteracyjnie(1, 0, 5, 53, a, b,
+                                 wspolczynniki, stopien, wybrana_trygonometryczna))
+
+    print(f.stycznie_iteracyjnie(1, 0, 5, 8, a, b,
+                                 wspolczynniki, stopien, wybrana_trygonometryczna))
+
+    rootb = f.bisekcja_iteracyjnie(1, przedzial_poczatek, przedzial_koniec, iteracje, a, b,
                                   wspolczynniki, stopien, wybrana_trygonometryczna)
-    f.plot_function(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a, b, wspolczynniki, stopien,
-                    wybrana_trygonometryczna, root)
-    f.plot_root(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a, b, wspolczynniki, stopien,
-                    wybrana_trygonometryczna, root)
+
+    roots = f.stycznie_iteracyjnie(1, przedzial_poczatek, przedzial_koniec, iteracje, a, b,
+                                   wspolczynniki, stopien, wybrana_trygonometryczna)
+    print()
+
 
 elif menu == 1:
     while zlozenie > 0:
@@ -111,16 +123,29 @@ elif menu == 1:
             print(f.pochodna_funkcji(rodzaj_funkcji, x, a, wspolczynniki, wybrana_trygonometryczna))
 
         print()
-        zlozenie = int(input("""Czy chcesz dodać złożenie funkcji?:
-            0 - Nie
-            1 - Dodawanie
-            2 - Odejmowanie
-            3 - Mnożenie
-            4 - Dzielenie
-            5 - Funkcja wewnętrzna
-            6 - Funkcja zewnętrzna
+        # zlozenie = int(input("""Czy chcesz dodać złożenie funkcji?:
+        #     0 - Nie
+        #     1 - Dodawanie
+        #     2 - Odejmowanie
+        #     3 - Mnożenie
+        #     4 - Dzielenie
+        #     5 - Funkcja wewnętrzna
+        #     6 - Funkcja zewnętrzna
+        #
+        #     Wybór: """))
 
-            Wybór: """))
+
+        # print()
+        # zlozenie = int(input("""Czy chcesz dodać złożenie funkcji?:
+        #     0 - Nie
+        #     1 - Dodaj funkcje zewnetrzna"""))
+        #     # 2 - Odejmowanie
+        #     # 3 - Mnożenie
+        #     # 4 - Dzielenie
+        #     # 5 - Funkcja wewnętrzna
+        #     # 6 - Funkcja zewnętrzna
+        #     #
+        #     # Wybór: """))
 
         if zlozenie > 0:
             iloscf += 1
@@ -192,8 +217,13 @@ elif menu == 1:
         print("Błąd - wybierz jedną z opcji")
         raise SystemExit
 
+
     f.plot_function(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a, b, wspolczynniki, stopien,
                     wybrana_trygonometryczna, root)
+    f.plot_root(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a, b, wspolczynniki, stopien,
+                    wybrana_trygonometryczna, root)
+
+
 
 else:
     print("Błąd - wybierz jedną z opcji")

@@ -70,20 +70,20 @@ def pochodna_funkcji(rodzaj_funkcji, x, a=None, wspolczynniki=None, wybrana_tryg
         raise ValueError("Nieprawidłowy rodzaj funkcji.")
 
 
-def wartosc_zlozona(zlozenie):
-    if zlozenie == 0:
-
-    elif zlozenie == 1:
-
-    elif zlozenie == 2:
-
-    elif zlozenie == 3:
-
-    elif zlozenie == 4:
-
-    elif zlozenie == 5:
-
-    elif zlozenie == 6:
+# def wartosc_zlozona(zlozenie):
+#     if zlozenie == 0:
+#
+#     elif zlozenie == 1:
+#
+#     elif zlozenie == 2:
+#
+#     elif zlozenie == 3:
+#
+#     elif zlozenie == 4:
+#
+#     elif zlozenie == 5:
+#
+#     elif zlozenie == 6:
 
 
 def wartosc_funkcji(rodzaj_funkcji, x, a=None, b=None, wspolczynniki=None, stopien = None, wybrana_trygonometryczna=None):
@@ -118,9 +118,9 @@ def bisekcja_iteracyjnie(rodzaj_funkcji, a, b, iteracje, parametr1=None, paramet
                                          wybrana_trygonometryczna)
         wartosc_a = wartosc_funkcji(rodzaj_funkcji, a, parametr1, parametr2, wspolczynniki, stopien, wybrana_trygonometryczna)
 
-        if wartosc_srodka == 0:
-            print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {i} iteracjach')
-            return srodek
+        # if wartosc_srodka == 0:
+        #     print(f'Miejscem zerowym tej funkcji jest {srodek}, znaleziony po {i} iteracjach')
+        #     return srodek
 
         if np.real(wartosc_a * wartosc_srodka) < 0:
             b = srodek
@@ -135,20 +135,20 @@ def bisekcja_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=No
         raise ValueError("Epsilon powinien być większy od zera.")
 
     srodek = (a + b) / 2
-    print("Wartość testowa funkcji poza pętlą, x u góry kodu: ",
-          wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, stopien, wybrana_trygonometryczna))
+    # print("Wartość testowa funkcji poza pętlą, x u góry kodu: ",
+    #       wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, stopien, wybrana_trygonometryczna))
 
     iteracje = 0
 
-    while abs(b - a) > epsilon and iteracje < 10000:
+    while abs(b - a) > epsilon and iteracje < 100000:
         srodek = (a + b) / 2
         wartosc_srodka = wartosc_funkcji(rodzaj_funkcji, srodek, parametr1, parametr2, wspolczynniki, stopien,
                                           wybrana_trygonometryczna)
         wartosc_a = wartosc_funkcji(rodzaj_funkcji, a, parametr1, parametr2, wspolczynniki, stopien, wybrana_trygonometryczna)
 
-        if wartosc_srodka == 0:
-            print(f'Miejscem zerowym tej funkcji jest {srodek}, znalezione po {iteracje} iteracjach')
-            return srodek
+        # if wartosc_srodka == 0:
+        #     print(f'Miejscem zerowym tej funkcji jest {srodek}, znalezione po {iteracje} iteracjach')
+        #     return srodek
 
         if np.real(wartosc_a * wartosc_srodka) < 0:
             b = srodek
@@ -161,7 +161,7 @@ def bisekcja_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=No
             print(
                 "Nie udało się osiągnąć wymaganego przybliżenia po 10000 iteracjach bisekcji epsilon. To jest zabezpieczenie przed nieskończoną pętlą.")
 
-    print(f'Po {iteracje} iteracjach miejsce zerowe zostało przybliżone do {srodek}')
+    print(f'Po przy wartosci {epsilon} miejsce zerowe zostało przybliżone do {srodek}')
     return srodek
 
 
@@ -172,7 +172,10 @@ def stycznie_iteracyjnie(rodzaj_funkcji, a, b, iteracje, parametr1=None, paramet
         raise ValueError("Ilość iteracji musi być dodatnią liczbą.")
 
     # Warunki początkowe
-    x = a
+    if abs(a) < abs(b):
+        x = a
+    else:
+        x = b
     print(f"Styczne iteracyjnie: ")
 
     # Pętla iteracyjna
@@ -199,7 +202,10 @@ def stycznie_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=No
 
     # Warunki początkowe
     iteracja = 0
-    x = a
+    if abs(a) < abs(b):
+        x = a
+    else:
+        x = b
 
     # Pętla iteracyjna
     while abs(b - a) > epsilon and iteracja < 10000:  # Zabezpieczenie przed nieskończoną pętlą
@@ -217,7 +223,7 @@ def stycznie_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=No
     if iteracja == 1000:
         print("Nie udało się osiągnąć wymaganego przybliżenia po 10000 iteracjach stycznych epsilon. To jest zabezpieczenie przed nieskończoną pętlą.")
 
-    print(f'Po {iteracja} iteracjach miejsce zerowe zostało przybliżone do {x_nastepny}')
+    print(f'Przy wartosci {epsilon} miejsce zerowe zostało przybliżone do {x_nastepny}')
     return x_nastepny
 
 
@@ -247,7 +253,7 @@ def plot_root(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a=None, b=No
     if root is not None:
         plt.scatter(root, 0, color='red', label='Root')
         # Zoom in around the root
-        zoom_factor = 0.01  # Adjust the zoom factor as needed
+        zoom_factor = 0.1  # Adjust the zoom factor as needed
         plt.xlim(root - zoom_factor, root + zoom_factor)  # Adjust the x-axis limits to zoom in on the root
     plt.legend()
     plt.axhline(0, color='black', linewidth=0.5)  # Highlight the x-axis
