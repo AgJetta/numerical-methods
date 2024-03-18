@@ -153,3 +153,5 @@ elif metoda == 3:
 else:
     print("Błąd - wybierz jedną z opcji")
     raise SystemExit
+
+f.plot_function(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a, b, wspolczynniki, stopien, wybrana_trygonometryczna,)
