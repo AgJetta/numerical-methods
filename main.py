@@ -19,7 +19,7 @@ while zlozenie > 0:
     rodzaj_funkcji = -1  # Zresetowanie rodzaj_funkcji przed kolejną iteracją pętli
 
     while rodzaj_funkcji < 0 or rodzaj_funkcji >= 3:
-        rodzaj_funkcji = float(input("""Wybierz funkcję:
+        rodzaj_funkcji = int(input("""Wybierz funkcję:
 
         0 - Wielomianowa
         1 - Wykładnicza
@@ -34,7 +34,7 @@ while zlozenie > 0:
 
         wspolczynniki = []
         for index in range(stopien, -1, -1):
-            wspolczynniki.append(float(input(f"Podaj współczynnik przy x^{index}: ")))
+            wspolczynniki.append(int(input(f"Podaj współczynnik przy x^{index}: ")))
 
         print(f"Wartosc testowa, x gdzies u gory kodu")
         print(f.wielomian(x, wspolczynniki))
@@ -43,14 +43,16 @@ while zlozenie > 0:
         print(f"forma pochodnej: ")
         print(np.polyder(np.poly1d(wspolczynniki)))
         print(f"wartosc pochodnej: ", f.pochodna_wielomianu(x, wspolczynniki))
+        print(f.pochodna_funkcji(rodzaj_funkcji,x,a, wspolczynniki, wybrana_trygonometryczna))
+
 
 
     elif rodzaj_funkcji == 1:  # Wykładnicza
-        a = float(input("Podaj współczynnik a: "))
+        a = int(input("Podaj współczynnik a: "))
         while a <= 0:
-            a = float(input("Współczynnik a musi byc wiekszy od 0 by funkcja mogła byc ciagła, podaj a: "))
+            a = int(input("Współczynnik a musi byc wiekszy od 0 by funkcja mogła byc ciagła, podaj a: "))
 
-        b = float(input("Podaj współczynnik b (wyraz wolny): "))
+        b = int(input("Podaj współczynnik b (wyraz wolny): "))
 
         print(f"Wspolczynniki :", a, b)
 
@@ -58,6 +60,8 @@ while zlozenie > 0:
         print(f.wykladnicza(x, a, b))
         print("wartosc pochodnej wykladniczej: ")
         print(f.pochodna_wykladniczej(x, a))
+        print(f.pochodna_funkcji(rodzaj_funkcji,x,a, wspolczynniki, wybrana_trygonometryczna))
+
 
     elif rodzaj_funkcji == 2:  # Trygonometryczna
 
@@ -77,17 +81,18 @@ while zlozenie > 0:
         trygonometryczne = [np.sin, np.cos, np.tan, lambda x: 1 / np.tan(x), np.arctan, np.arcsin, np.arccos, lambda x: np.pi / 2 - np.arctan(x)]
         wybrana_trygonometryczna = trygonometryczne[wybor_funkcji_trygonometrycznej]
 
-        a = float(input("Podaj współczynnik a: "))
-        b = float(input("Podaj współczynnik b (wyraz wolny): "))
+        a = int(input("Podaj współczynnik a: "))
+        b = int(input("Podaj współczynnik b (wyraz wolny): "))
         print(a, b)
         # print(trygonometryczne[wybor_funkcji_trygonometrycznej])
         print(f"Wartosc testowa, x gdzies u gory kodu")
         print(f.trygonometryczna(x, wybrana_trygonometryczna, a, b))
         print("wartosc pochodnej trygonometrycznej: ")
-        print(f.pochodna_trygonometrycznej(x, wybrana_trygonometryczna, a))
+        print(f.pochodna_trygonometrycznej(x, a, wybrana_trygonometryczna))
+        print(f.pochodna_funkcji(rodzaj_funkcji,x,a, wspolczynniki, wybrana_trygonometryczna))
 
     print()
-    zlozenie = float(input("""Czy chcesz dodac zlozenie funkcji?: 
+    zlozenie = int(input("""Czy chcesz dodac zlozenie funkcji?: 
         0 - Nie
         1 - Dodawanie
         2 - Odejmowanie
@@ -113,8 +118,8 @@ przedzial_wartosc = 1
 while przedzial_wartosc > 0:
     print()
     print("Podaj przedzial, w ktorym funkcja ma rozne znaki na krancach przedzialow")
-    przedzial_poczatek = float(input("Podaj lewy koniec przedziału przedziału: "))
-    przedzial_koniec = float(input("Podaj prawy koniec przedziału: "))
+    przedzial_poczatek = int(input("Podaj lewy koniec przedziału przedziału: "))
+    przedzial_koniec = int(input("Podaj prawy koniec przedziału: "))
 
     # walidacja, czy wartosci po przeciwnych stronach przedziału mają przeciwną wartosc
     print(f.wartosc_funkcji(rodzaj_funkcji, przedzial_poczatek, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
@@ -123,7 +128,7 @@ while przedzial_wartosc > 0:
 
     print(f"walidacja, przedzial wartosc: ", przedzial_wartosc)
 
-metoda = float(input("""\nWybierz metodę
+metoda = int(input("""\nWybierz metodę
 
 0 - Metoda bisekcji iteracyjnie
 1 - Metoda bisekcji z użyciem epsilon
@@ -142,7 +147,7 @@ if metoda == 0:
 elif metoda == 1:
     print(f.bisekcja_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
 elif metoda == 2:
-    print(f.metoda_Newtona_iteracje(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje))
+    print(f.stycznie_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
 elif metoda == 3:
     print(f.stycznie_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
 else:
