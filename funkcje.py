@@ -198,15 +198,15 @@ def stycznie_epsilon(rodzaj_funkcji, a, b, epsilon, parametr1=None, parametr2=No
     return x_nastepny
 
 
-def plot_function(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a=None, b=None, wspolczynniki=None, stopien=None, wybrana_trygonometryczna=None, roots=None):
+def plot_function(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a=None, b=None, wspolczynniki=None, stopien=None, wybrana_trygonometryczna=None, root=None):
     x = np.linspace(przedzial_poczatek, przedzial_koniec, 400)  # Generate x-values in the given interval
     y = wartosc_funkcji(rodzaj_funkcji, x, a, b, wspolczynniki, stopien, wybrana_trygonometryczna)
     plt.plot(x, y, label='f(x)')
     plt.xlabel('x')
     plt.ylabel('f(x)')
     plt.grid(True)
-    if roots:
-        plt.scatter(roots, [0] * len(roots), color='red', label='Roots')
+    if root is not None:
+        plt.scatter(root, 0, color='red', label='Root')
     plt.legend()
     plt.axhline(0, color='black', linewidth=0.5)  # Highlight the x-axis
     plt.axvline(0, color='black', linewidth=0.5)  # Highlight the y-axis

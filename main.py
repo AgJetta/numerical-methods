@@ -144,14 +144,18 @@ else:
 
 if metoda == 0:
     print(f.bisekcja_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
+    root = f.bisekcja_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje, a, b, wspolczynniki, stopien, wybrana_trygonometryczna)
 elif metoda == 1:
     print(f.bisekcja_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
+    root = f.bisekcja_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, stopien, wybrana_trygonometryczna)
 elif metoda == 2:
     print(f.stycznie_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
+    root = f.stycznie_iteracyjnie(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, iteracje, a, b, wspolczynniki, stopien, wybrana_trygonometryczna)
 elif metoda == 3:
     print(f.stycznie_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, stopien, wybrana_trygonometryczna))
+    root = f.stycznie_epsilon(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, epsilon, a, b, wspolczynniki, stopien, wybrana_trygonometryczna)
 else:
     print("Błąd - wybierz jedną z opcji")
     raise SystemExit
 
-f.plot_function(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a, b, wspolczynniki, stopien, wybrana_trygonometryczna,)
+f.plot_function(rodzaj_funkcji, przedzial_poczatek, przedzial_koniec, a, b, wspolczynniki, stopien, wybrana_trygonometryczna, root)
