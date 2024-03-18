@@ -123,29 +123,18 @@ elif menu == 1:
             print(f.pochodna_funkcji(rodzaj_funkcji, x, a, wspolczynniki, wybrana_trygonometryczna))
 
         print()
-        # zlozenie = int(input("""Czy chcesz dodać złożenie funkcji?:
-        #     0 - Nie
-        #     1 - Dodawanie
-        #     2 - Odejmowanie
-        #     3 - Mnożenie
-        #     4 - Dzielenie
-        #     5 - Funkcja wewnętrzna
-        #     6 - Funkcja zewnętrzna
-        #
-        #     Wybór: """))
+        zlozenie = int(input("""Czy chcesz dodać złożenie funkcji?:
+            0 - Nie
+            1 - Dodawanie
+            2 - Odejmowanie
+            3 - Mnożenie
+            4 - Dzielenie
+            5 - Funkcja wewnętrzna
+            6 - Funkcja zewnętrzna
 
+            Wybór: """))
 
         # print()
-        # zlozenie = int(input("""Czy chcesz dodać złożenie funkcji?:
-        #     0 - Nie
-        #     1 - Dodaj funkcje zewnetrzna"""))
-        #     # 2 - Odejmowanie
-        #     # 3 - Mnożenie
-        #     # 4 - Dzielenie
-        #     # 5 - Funkcja wewnętrzna
-        #     # 6 - Funkcja zewnętrzna
-        #     #
-        #     # Wybór: """))
 
         if zlozenie > 0:
             iloscf += 1
